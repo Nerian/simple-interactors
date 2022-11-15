@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    simple-interactors (0.0.1)
+    simple-interactors (0.0.2)
       hanami-utils (= 2.0.0.beta1)
 
 GEM
