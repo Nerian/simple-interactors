@@ -6,6 +6,9 @@ module Hanami
   # Hanami Interactor
   #
   # @since 0.3.5
+
+  class AbortExecution < Exception; end;
+
   module Interactor
     # Result of an operation
     #
@@ -267,9 +270,10 @@ module Hanami
       # @since 0.3.5
       # @api private
       def _call
-        catch :fail do
+        begin
           validate!
           yield
+        rescue AbortExecution
         end
 
         _prepare!
@@ -361,9 +365,10 @@ module Hanami
       # @api private
       # @since 1.1.0
       def _call(*args, **kwargs)
-        catch :fail do
+        begin
           validate!(*args, **kwargs)
           yield
+        rescue AbortExecution
         end
 
         _prepare!
@@ -425,7 +430,7 @@ module Hanami
     #   result.successful? # => false
     def fail!
       @__result.fail!
-      throw :fail
+      raise AbortExecution
     end
 
     # Logs an error without interrupting the flow.
